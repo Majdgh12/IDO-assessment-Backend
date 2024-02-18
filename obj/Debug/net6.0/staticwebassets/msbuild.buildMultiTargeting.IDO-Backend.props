@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\IDO-Backend.props" />
+</Project>
