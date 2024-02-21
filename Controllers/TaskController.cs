@@ -25,10 +25,7 @@ namespace IDO_Backend.Controllers
         {
             // Retrieve user ID from the token
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-           /* if (string.IsNullOrEmpty(userIdClaim))
-            {
-                return BadRequest("User ID not found in token.");
-            }*/
+         
 
             // Retrieve tasks belonging to the specified user ID
             var tasks = _context.Tasks.Where(task => task.userId == int.Parse(userIdClaim)).ToList();
@@ -45,11 +42,8 @@ namespace IDO_Backend.Controllers
                 return BadRequest("User ID not found in token.");
             }
 
-            // Ensure the task belongs to the user
-            if (task.userId != int.Parse(userIdClaim))
-            {
-                return BadRequest("Task userId does not match the provided userId.");
-            }
+            // Set the task's user ID to the authenticated user's ID
+            task.userId = int.Parse(userIdClaim);
 
             _context.Tasks.Add(task);
             _context.SaveChanges();
